@@ -13,7 +13,7 @@ import {fileURLToPath} from 'url' ;
 dotenv.config();
 
 //databse config
-connectDB();
+
 //esmodule fix
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,12 +37,14 @@ app.use('*',function(req,res){
 })
 
 //PORT
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT ;
 
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(
+      `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan
+        .white
+    );
+  });
+})
 //run listen
-app.listen(PORT, () => {
-  console.log(
-    `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan
-      .white
-  );
-});
