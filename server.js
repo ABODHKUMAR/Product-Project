@@ -8,43 +8,43 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cors from "cors";
 import path from "path";
-import {fileURLToPath} from 'url' ;
-//configure env
+import { fileURLToPath } from 'url';
+
+// Configure env
 dotenv.config();
 
-//databse config
-
-//esmodule fix
+// EsModule fix
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-//rest object
+
+// Rest object
 const app = express();
 
-//middelwares
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-//routes
+// Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
-app.use(express.static(path.join(__dirname,'./client/build')))
+app.use(express.static(path.join(__dirname, './client/build')));
 
-//rest api
-app.use('*',function(req,res){
-  res.sendFile(path.join(__dirname,'./client/build/index.html'))
-})
+// Rest API
+app.use('*', function(req, res) {
+  res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
 
-//PORT
-const PORT = process.env.PORT ;
+// PORT
+const PORT = process.env.PORT;
 
+// Connect to the database
 connectDB().then(() => {
+  // Start the server
   app.listen(PORT, () => {
     console.log(
-      `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan
-        .white
+      `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan.white
     );
   });
-})
-//run listen
+});
